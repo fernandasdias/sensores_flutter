@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   sensors: ^0.4.2+6
-  audioplayers: ^0.17.4
+  audioplayers: ^0.16.0
 
 
 dev_dependencies:

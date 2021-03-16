@@ -154,9 +154,20 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void start() {
+    bool isArmElevated = false;
+    int count = 0;
     _streamSubscriptions
         .add(accelerometerEvents.listen((AccelerometerEvent event) {
       setState(() {
+        if (event.y > 4) {
+          isArmElevated = true;
+          print('arm up');
+        } else if (event.y < -4) {
+          print('arm down');
+          isArmElevated = true;
+        } else
+          isArmElevated = false;
+
         _accelerometerValues = <double>[event.x, event.y, event.z];
       });
     }));
@@ -169,13 +180,16 @@ class _MyHomePageState extends State<MyHomePage> {
         .add(userAccelerometerEvents.listen((UserAccelerometerEvent event) {
       double accelResults =
           sqrt(event.x * event.x + event.y * event.y + event.z * event.z);
-      setState(() async {
-        print(accelResults.toStringAsFixed(2));
-        if (accelResults >= 4) {
-          var audioPlayer = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
-          AudioPlayer.logEnabled = true;
-          AudioCache player = new AudioCache();
-          await audioPlayer.play('assets/correct_sound.mp3');
+      setState(() {
+        // print(accelResults.toStringAsFixed(2));
+        if (accelResults >= 4 && isArmElevated) {
+          print('play sound');
+          count++;
+          print(count);
+          // var audioPlayer = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
+          // AudioPlayer.logEnabled = true;
+          // AudioCache player = new AudioCache();
+          // await audioPlayer.play('assets/correct_sound.mp3');
         }
         _userAccelerometerValues = <int>[
           (event.x * mult).truncate(),
