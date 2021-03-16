@@ -17,6 +17,8 @@ void main() {
   runApp(MyApp());
 }
 
+enum Status { up, down }
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -171,17 +173,21 @@ class _MyHomePageState extends State<MyHomePage> {
   void start() {
     bool isArmElevated = false;
     int count = 0;
+    Status armStatus = Status.down;
     _streamSubscriptions
         .add(accelerometerEvents.listen((AccelerometerEvent event) {
       setState(() {
         if (event.y > 4) {
           isArmElevated = true;
+          armStatus = Status.up;
           print('arm up');
         } else if (event.y < -4) {
+          armStatus = Status.down;
           print('arm down');
           isArmElevated = true;
-        } else
+        } else {
           isArmElevated = false;
+        }
 
         _accelerometerValues = <double>[event.x, event.y, event.z];
         if (event.y >= 0) {
