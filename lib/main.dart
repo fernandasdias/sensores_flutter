@@ -47,6 +47,21 @@ class _MyHomePageState extends State<MyHomePage> {
   List<StreamSubscription<dynamic>> _streamSubscriptions =
       <StreamSubscription<dynamic>>[];
 
+  int _countUpDown = 0;
+  String _position = "";
+
+  void counterUp() {
+    if (_position != 'Up') {
+      _countUpDown++;
+    }
+  }
+
+  void counterDown() {
+    if (_position != 'Down') {
+      _countUpDown++;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<String> accelerometer =
@@ -139,6 +154,15 @@ class _MyHomePageState extends State<MyHomePage> {
         .add(accelerometerEvents.listen((AccelerometerEvent event) {
       setState(() {
         _accelerometerValues = <double>[event.x, event.y, event.z];
+        if (event.y >= 0) {
+          counterUp();
+          _position = "Up";
+          print('Count: $_countUpDown, Position: $_position');
+        } else {
+          counterDown();
+          _position = 'Down';
+          print('Count: $_countUpDown, Position: $_position');
+        }
       });
     }));
     _streamSubscriptions.add(gyroscopeEvents.listen((GyroscopeEvent event) {
