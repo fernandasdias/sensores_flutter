@@ -42,6 +42,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  AudioCache audioCache = AudioCache();
+  AudioPlayer advancedPlayer = AudioPlayer();
   static const int _snakeRows = 20;
   static const int _snakeColumns = 20;
   static const double _snakeCellSize = 10.0;
@@ -171,6 +173,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void start() {
+    double accelResults;
+    double gyroscopeResults;
     bool isArmElevated = false;
     int count = 0;
     Status armStatus = Status.down;
@@ -180,10 +184,10 @@ class _MyHomePageState extends State<MyHomePage> {
         if (event.y > 4) {
           isArmElevated = true;
           armStatus = Status.up;
-          print('arm up');
+          // print(('y' + event.y.toString()));
         } else if (event.y < -4) {
           armStatus = Status.down;
-          print('arm down');
+          // print('arm down');
           isArmElevated = true;
         } else {
           isArmElevated = false;
@@ -193,25 +197,38 @@ class _MyHomePageState extends State<MyHomePage> {
         if (event.y >= 0) {
           counterUp();
           _position = "Up";
-          print('Count: $_countUpDown, Position: $_position');
+          // print('Count: $_countUpDown, Position: $_position');
         } else {
           counterDown();
           _position = 'Down';
-          print('Count: $_countUpDown, Position: $_position');
+          // print('Count: $_countUpDown, Position: $_position');
         }
       });
     }));
-    _streamSubscriptions.add(gyroscopeEvents.listen((GyroscopeEvent event) {
+    _streamSubscriptions
+        .add(gyroscopeEvents.listen((GyroscopeEvent event) async {
+      gyroscopeResults =
+          sqrt(event.x * event.x + event.y * event.y + event.z * event.z);
+      if (gyroscopeResults >= 1.5) {
+        print(gyroscopeResults);
+        print('era pra tocar');
+        // await audioCache.play('correct_sound.mp3',
+        // mode: PlayerMode.LOW_LATENCY);
+      }
       setState(() {
+        print('\ngiro' + gyroscopeResults.toStringAsFixed(2));
         _gyroscopeValues = <double>[event.x, event.y, event.z];
       });
     }));
+
     _streamSubscriptions
         .add(userAccelerometerEvents.listen((UserAccelerometerEvent event) {
-      double accelResults =
+      accelResults =
           sqrt(event.x * event.x + event.y * event.y + event.z * event.z);
       setState(() {
-        // print(accelResults.toStringAsFixed(2));
+        // print('accel ' + accelResults.toStringAsFixed(2));
+        // print('giro x accel   ' +
+        // (gyroscopeResults * accelResults).toStringAsFixed(3));
         if (accelResults >= 4 && isArmElevated) {
           print('play sound');
           count++;
