@@ -2,6 +2,8 @@ PODS:
   - audioplayers (0.0.1):
     - Flutter
   - Flutter (1.0.0)
+  - motion_sensors (0.0.1):
+    - Flutter
   - path_provider (0.0.1):
     - Flutter
   - sensors (0.0.1):
@@ -10,6 +12,7 @@ PODS:
 DEPENDENCIES:
   - audioplayers (from `.symlinks/plugins/audioplayers/ios`)
   - Flutter (from `Flutter`)
+  - motion_sensors (from `.symlinks/plugins/motion_sensors/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - sensors (from `.symlinks/plugins/sensors/ios`)
 
@@ -18,6 +21,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/audioplayers/ios"
   Flutter:
     :path: Flutter
+  motion_sensors:
+    :path: ".symlinks/plugins/motion_sensors/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
   sensors:
@@ -26,6 +31,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   audioplayers: 53f0f30789b10ab2009771c6c79def00980945e4
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  motion_sensors: 03f55b7c637a7e365a0b5f9697a449f9059d5d91
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   sensors: 84eb7a30e47a649e4172b71d6e81be614c280336
 
